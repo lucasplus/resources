@@ -1,0 +1,144 @@
+
+
+________________________________________________ functions
+
+add_library( <name> [STATIC|SHARED|MODULE] source1 ... sourceN )
+  - Add a library to the project using the specified source files.
+  - Type of library based on BUILD_SHARED_LIBS
+    - I believe the default is the build shared libraries
+  - By default the library file will be created in the build tree directory
+    corresponding to the source tree directory in which the command was invoked.  Can
+    be changed with ARCHIVE_OUTPUT_DIRECTORY, LIBRARY_OUTPUT_DIRECTORY, and
+    RUNTIME_OUTPUT_DIRECTORY
+
+add_library( <name> [STATIC|SHARED|MODULE] IMPORTED [GLOBAL] ) 
+  - An IMPORTED library target references a library file located ourside the project.
+    No rules are generated to build it. The target name has scope in the directory it
+    was created and below, but the GLOBAL extends visibility. It may be referenced
+    like any target built within the project. Convenient for commands such as
+    target_link_libraries. Details are specified by setting properties whose name
+    begin in "IMPORTED_" ex: add_library(foo STATIC IMPORTED) set_property(TARGET foo
+    PROPERTY IMPORTED_LOCATION_RELEASE c:/path/to/foo.lib) set_property(TARGET foo
+    PROPERTY IMPORTED_LOCATION_DEBUG   c:/path/to/foo_d.lib) add_executable(myexe
+    src1.c src2.c) target_link_libraries(myexe foo)
+
+target_link_libraries( <target> [item1 item2 ...] [[debug|optimized|general] <item>]
+)
+  - Link a target to given libraries
+  - The named <target> must have been already created by a command such as
+    add_executable or add_library
+
+include_directories( [AFTER|BEFORE] [SYSTEM] dir1 dir2 ... )
+  - Add include directories to the build
+  - Add the given direcotories to those the compiler uses to search for include
+    files. Relative paths are interpreted as relative to the current source
+    directory. 
+  - SYSTEM option tells compiler the directories are meant as system include directories.
+
+link_directories( directory1 directory2 ... ) 
+  - Specify directories in which the linker will look for libraries
+  - Note that this command is rarely necessary. Library locations returned by
+    find_package() and find_library() are absolute paths. Pass these absolute library
+    file paths directly to the target_link_libraries() command. CMake will ensure the
+    linker finds them. 
+
+set( <variable> <value> [[CACHE <type> <docstring> [FORCE]] | PARENT_SCOPE ])
+  - Set a CMake, cache or environment variable to a given value
+  - If CACHE is present, then the <variable> is put in the cache instead, unless it
+    is already in the cache. 
+  - If FORCE is specified, the value of the cache variable is set, even if the
+    variable is already in the cache. Usually avoided. 
+
+message( [STATUS|WARNING|AUTHOR_WARNING|SEND_ERROR|FATAL_ERROR] "message1" "message2"
+... )
+  - optional keyword determines the type of message:
+    - (none): important information
+    - STATUS: incidental information
+    - WARNING: CMake warning continue processing
+    - AUTHOR_WARNING: CMake warning (dev), continue processing
+    - SEND_ERROR: CMake Error, continue processing, but skip generation
+    - FATAL_ERROR: CMake Error, stop processing and generation
+
+add_definitions( -DFOO -DBAR ... )
+  - Add flags to the compiler commond line for sources in the current directory and
+    below. 
+
+________________________________________ Variables that affect build behaviour 
+
+CMAKE_INCLUDE_CURRENT_DIR: Automatically add CMAKE_CURRENT_SOURCE_DIR and
+CMAKE_CURRENT_BINARY_DIR to the include directories in every processed
+CMakeLists.txt. It behaves as if you had used INCLUDE_DIRECTORIES in every
+CMakeLists.txt file or your project.  CMAKE_CURRENT_SOURCE_DIR: The directory where
+the currently processed CMakeLists.txt is located in CMAKE_CURRENT_BINARY_DIR: The
+directory where the compiled or generated files from the current CMakeLists.txt will
+go ARCHIVE_OUTPUT_DIRECTORY, LIBRARY_OUTPUT_DIRECTORY, RUNTIME_OUTPUT_DIRECTORY:
+There are three kinds of target files that may be built: archive, library, and
+runtime. Executables are always treated as runtime targets. Static libraries are
+always treated as library targets. For DLL platforms, the DLL part of a shared
+library is treated as a runtime target and the corresponding import library is
+treated as an archive target. All Windows based systems, including Cygwin are DLL
+platforms. 
+
+CMAKE_LIBRARY_OUTPUT_DIRECTORY: single directory where library products are stored
+
+CMAKE_LIBRARY_PATH, CMAKE_SYSTEM_LIBRARY_PATH: searched by find_library()
+
+________________________________________________ concepts
+
+First time CMake is run for a particular build tree, it creates a CMakeCache.txt.
+Contains a lot of useful information.  The configure step "runs" the CMake code. At
+the end, their exists and internal representation of the project and CMakeCache.txt
+is written.
+
+Since cache values can be modified as the commands are executed, the process of
+converging on a final build can be iterative. For example, turning on an option may
+reveal additional options. Forthis reason, the GUI disables the "generate" button
+until the user has had a chance to see all options at least once. Each time the
+configure button is pressed, new cache variables that have not yet been presented to
+the user are displayed in red. Once there are no new cache variables created furing a
+configure run, the generate button is enabled. 
+
+Use find_library() and pass the result to target_link_libraries
+
+Using add_dependencies() in the following is redundant.  The function
+add_dependencies() is only required in rare circumstances taget_link_libraries( myexe
+mylibrary ) add_dependencies( myexe mylibrary )
+
+Adding the header file isn't necessary, but makes it show up in some IDEs.
+add_executalbe( myexe myexe.c myexe.h )
+
+________________________________________________ policies
+
+CMP0025: Compiler id for Apple Clang is now AppleClang
+
+
+________________________________________________ policies
+
+BRL-CAD
+
+
+project( uart ) 
+
+find_package(Qt4 REQUIRED)
+include (${QT_USE_FILE})
+find_package(KDE4 REQUIRED)
+include (KDE4Defaults)
+
+include_directories( ${KDE4_INCLUDES} ${QT_INCLUDES} src/include src/include/QSerialDevice )
+link_directories(/usr/lib) 
+
+file(GLOB uart_SRCS src/*.cpp src/*.h)
+file(GLOB uart_HDRS include/*.h include/QSerialDevice/*.h)
+
+find_library(SERIALDEVICE_LIB qserialdeviced)
+
+add_executable(uart ${uart_SRCS} ${uart_HDRS})
+target_link_libraries(uart ${SERIALDEVICE_LIB} ${QT_LIBRARIES})
+
+
+cmake_minimum_required( <version_number> )
+
+
+
+
+

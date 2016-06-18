@@ -1,0 +1,27 @@
+
+__________________________________ Shared libraries 
+
+File name: Linux .so; Windows .dll; osx .dylib
+
+All code relating to the library is in the file, and it is refrenced by programs
+at run-time.
+
+Pro:
+Reduces the amount of code that is duplicated in each program that makes use of
+the library, keeping the binaries small. 
+Shared libraries can be loaded into an application at run-time, which is the 
+
+Con: 
+Additional cost for the execution of functions, as well as a run-time loading
+coast as all the symbols in the library need to be connected to the things they
+use. 
+
+__________________________________ Static libraries 
+
+File name: Linux .a; Windows .lib
+
+All the code relating to the library is in this file, and it is directly linked
+into the program at compile time. A program using a static library takes copies
+of the code that it uses from the static library and makes it part of the
+program.
+

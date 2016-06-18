@@ -1,0 +1,110 @@
+
+
+________________________________ basic
+
+" create and clone
+git init                  " create new repository
+git clone <remote url>    " clone remote repository
+
+" add and remove
+git add <filename>        " add changes to INDEX
+git add *                 " add all changes to INDEX
+git rm <filename>         " remove file
+
+" commit and synchronize
+git commit -m "Commit message"    " commit changes
+git push origin master            " push changes to remote repository
+git remote add origin <server>    " connect local repository to remote repository
+git pull                          " update local repository with remote changes
+
+" branches
+git branch -a                     " shows all local and remote branches (-r shows only remote branches)
+git checkout -b <branch>          " create new branch
+git checkout master               " switch to master branch
+git branch -d <branch>            " delete branch
+git push origin <branch>          " push branch to remote repository
+
+" merge
+git merge <branch>                " merge changes from another branch
+git diff <source_branch> <target_branch>  " view changes between two branches
+
+" tagging 
+git tag <tag> <commit ID>         " create tag
+git log                           " git commit IDs
+
+________________________________ useful queries 
+
+git remote show origin        " show url of remote
+git remote show               " useful if the remote isn't named origin
+
+________________________________ forking
+
+" fork a repo
+
+" make your fork track the original upstream repo
+git remote add --track master upstream git://github.com/upstreamname/projectname.git
+
+" then to get the code
+git fetch upstream
+git merge upstream/master
+
+________________________________ pull request (github)
+
+" if working on an open source project, you'll need to do a pull request
+" so do your feature development on a new branch
+git branch newfeature    " create branch
+git checkout newfeature  " switch to it
+
+" then push them to your remot
+git push origin newfeature
+
+" go to github, go to your branch and click on "Pull Request"
+" you can then describe and submit your pull request
+
+" if you are on the recieving end of a pull request, you will need to do something like
+git checkout master
+git remote add contributor git://github.com/contributor/project
+git fetch contributor
+git merge contributor/newfeature
+git push origin master
+
+________________________________ submodules
+
+" removing submodules 
+
+________________________________ stash
+
+" Store uncommitted changes into special buffer and at the same time undo them on the working copy.
+git stash save [optional_message] 
+
+
+" Now you can switch to a different branch and keep working
+
+" Once done there, switch back to original branch and apply the saved changes
+git stash pop
+
+________________________________ tags
+
+Git tags are a named reference to a specific commit in your repository.
+  
+  Lightweight tags
+    Store only the hash of the commit they refer to
+    git tag <name>    " creates a tag at the current commit
+
+  Annotated tags
+    Allows you to add info like message, creation date, and author
+    git tag -a <name>               " create annotated tag
+    git tag -a -m "message" <name>  " add a message
+
+git tag -l        " list tags
+git show <name>   " show tag details
+
+git push origin <name>    " push tag to remote repository
+
+
+________________________________ workflow
+
+Your local repository consists of three "trees" maintained by git.
+  - Working Directory: hold the actual files
+  - Index: Acts as a staging area
+  - Head: Points to the last commit you've made

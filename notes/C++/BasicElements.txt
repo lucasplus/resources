@@ -1,0 +1,147 @@
+
+___________________________________________________ definitions
+
+unary operation - An operation with only one operand ie. a single input.
+
+___________________________________________________ keywords
+
+volatile - (from the C++ Standard) volatile is a hint to the compiler to avoid aggressive optimization involving the object because the value of the object might be changed by means undetectable by the compiler
+
+___________________________________________________ paradigms
+
+RAII - Resource Aquistion Is Initialisation
+
+rule of three - If a class defines one of the following it should probably explicitly define all three:
+  Destructor 
+  Copy constructor 
+  Copy assignment operator
+
+Copy-and-swap idiom
+http://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom
+
+"move semantics" and the related "rvalue references" (C++11)
+http://stackoverflow.com/questions/3106110/what-are-move-semantics
+http://eli.thegreenplace.net/2011/12/15/understanding-lvalues-and-rvalues-in-c-and-c/
+http://en.cppreference.com/w/cpp/language/move_operator
+  - C++11 
+
+___________________________________________________ operators
+
+* unary dereference operator
+& unary address-of operator
+
+___________________________________________________ for loops
+
+// using std::vector
+
+  // using iterators
+  for(std::vector<T>::iterator it = v.begin(); it != v.end(); ++it) {
+        /* std::cout << *it; ... */
+  }
+
+  // using indices
+  for(std::vector<int>::size_type i = 0; i != v.size(); i++) {
+        /* std::cout << someVector[i]; ... */
+  }
+
+// using arrays
+
+  // using iterators
+  for(element_type* it = a; it != (a + (sizeof a / sizeof *a)); it++) {
+        /* std::cout << *it; ... */
+  }
+
+  // using indices
+  for(std::size_t i = 0; i != (sizeof a / sizeof *a); i++) {
+        /* std::cout << a[i]; ... */
+  }
+
+// using range based for loops C++11
+
+  int my_array[5] = {1, 2, 3, 4, 5};
+  // double the value of each element in my_array:
+  for (int &x : my_array) {
+        x *= 2;
+  }
+  // similar but also using type inference for array elements
+  for (auto &x : my_array) {
+        x *= 2;
+  }
+___________________________________________________ lvalue and rvalue
+http://eli.thegreenplace.net/2011/12/15/understanding-lvalues-and-rvalues-in-c-and-c/
+
+lvalue - (locator value) represents an object that occupies some identifiable location in memory (ie. has an address)
+
+rvalues - defined by exclusion, meaning it is the opposite of lvalue. So, rvalue is an expression that does not represent an object occupying some identifiable location in memory.
+
+int var;
+var = 4;       // valid
+4 = var;       // error
+(var + 1) = 4; // error
+
+
+___________________________________________________ class operators example
+
+#include <cstring>
+#include <iostream>
+ 
+class Foo
+{
+public:
+    /** Constructor */
+    Foo() :
+        data (new char[14])
+    {
+        std::strcpy (data, "Hello, World!");
+    }
+ 
+    /** Copy Constructor */
+    Foo (const Foo& other) :
+        data (new char[std::strlen (other.data) + 1])
+    {
+        std::strcpy (data, other.data );
+    }
+ 
+    /** Move Constructor */
+    Foo (Foo&& other)
+    {
+        std::swap(data, other.data);
+    }
+ 
+    /** Destructor */
+    ~Foo()
+    {
+        delete[] data;
+    }
+ 
+    /** Copy Assignment Operator */
+    Foo& operator= (Foo other) // note: argument passed by value
+    {
+        std::swap (data, other.data);
+        return *this;
+    }
+ 
+    /** Move Assignment Operator */
+    Foo& operator= (Foo&& other)
+    {
+        std::swap(data, other.data);
+        return *this;
+    }
+ 
+private:
+    friend std::ostream& operator<< (std::ostream& os, const Foo& foo)
+    {
+        os << foo.data;
+        return os;
+    }
+ 
+    char* data;		
+};
+ 
+int main()
+{
+    const Foo foo;
+    std::cout << foo << '\n';
+ 
+    return 0;
+}

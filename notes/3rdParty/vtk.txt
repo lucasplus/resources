@@ -1,0 +1,120 @@
+
+__________________ Notes from "Introduction to VTK webinar"
+
+VTK Data Structures
+vtkDataObject - represents a generic "blob" of data
+  vtkDataSet - adds geometric/topological structure
+    - consists of geomtry (points) and topology (cells). Cells are the plane defined by a set of points
+    vtkImageData, vtkRectilinearGrid, vtkStructuredGrid, vtkPolyData, vtkUnstructuredGrid
+  vtkDataArrays - class containing pointers to contiguous buffer memory
+
+VTK Rendering Engine
+RenderWindow - Draws into a window
+  Interactor - Handles mouse/keyboard events
+  Renderer - Draws into a region of the RenderWindow
+    Camera - Where the scene is looked at 
+    Lights - How scene is illuminated 
+    Prop - something shown (vtkActor and vtkVolume are important subclasses)
+      Property - how the thing looks
+      Mapper - Connection to data processing pipeline
+        LookupTable - What color for what value
+
+ vtkRenderWindow
+  SetSize(), AddRenderer(), SetInteractor()
+    - tip: vtkRenderWindowInteractor->SetInteractorStyle()
+  Render() - tell the pipeline to draw the scene
+
+  vtkRenderer
+    SetViewport() - for use with multiple renderers 
+    AddViewProp() - add objects to be rendered
+    AddLight(), SetAmbient(), SetBackground()
+    SetActiveCamera()
+    ResetCamera() - reset the camera so that all actors are visible
+
+  vtkProperty (Actor has)
+    AmbientColor, DiffuseColor, SpecularColor - colors for each type of lighting
+    Color - sets the three colors from above to be the same
+    Interpolation - shading interpolation method
+    Representation - how to draw (Points, Wireframe, Surface)
+    Opacity - control transparency
+
+  vtkMapper 
+    ScalarVisibilityOn()/Off() - color cells/points by data values or entire object by actor color
+
+
+__________________ Notes from https://www.youtube.com/watch?v=sb5FTVGqhPo "Building Qt-enabled VTK applications"
+
+vtk has 2 components:
+  data processing pipeline 
+  visualiztion pipeline
+
+Data processing pipeline 
+  Data Objects (vtkPolyData, vtkImageData, vtkGraph, ...)
+    - represent and provide access to data
+    - compute information particular to data (eg. bounding box, derivatives)
+  Algorithms (vtkExtractSurface, vtkMarchingCubes,...)
+    - ingest, transform, and output data objects
+
+Rendering pipeline
+  Mapper - last vtkAlgorithm of the data processing pipeline
+  ViewProp - (vtkActor, vtkImageActor)
+  Renderer - how to draw
+  RenderWindow - where to draw
+  RenderWindowInteractor - how to interact
+
+Interaction
+  Event loop - vtkRenderWindowInteractor
+  Event notifier - vtkObject
+  Event observer - vtkCommand
+  Widgets - interactive props
+
+______________ Notes from https://vimeo.com/66194458 "Open-source, Cross-platform Charting with VTK"
+
+vtkContextView, vtkChartXY
+vtkAnnotationLink - allows to see what the user selected in the chart
+vtkWindowToImageFilter, vtk.*Writer - use for saving a chart
+
+______________ Notes from http://www.vtk.org/Wiki/VTK/Tutorials/New_Pipeline
+
+There are four key classes that make up the new pipeline:
+
+vtkInformation 
+  - Most of the methods and meta information storage make use of this class. 
+  - When passing information up or down the pipeline (or from the executive to the algorithm), this is the class to use
+  - It is a map-based data structure.
+
+vtkDataObject 
+  - Used to both store and handle some of the pipeline logic.
+    - In the new pipeline this class is only supposed to store data.
+  - Goal is that vtkDataObject should only be used for storing data.
+
+vtkAlgorithm 
+  - New superclass for all filters/sources/sinks in VTK.
+  - It is the replacement for vtkSource.
+  - It has a vtkInformation instance that describes the properties of the algorithm and it has information objects that describe its input and output port characteristics.
+  - The main method of an algorithm is ProcessRequest.
+
+vtkExecutive 
+  - Contains the logic of how to connect and execute a pipeline.
+  - Executives are distributed as opposed to centralized.
+  - Each filter/algorithm has its own executive that communicates with other executives. 
+
+______________ Notes on vtkImageMapper
+
+SetColorWindow does set the range, but it doesn't necessarily go from 0 to the ColorWindow value; where the range starts and ends depends on the value of ColorLevel. Use SetColorLevel to specify the center of the ColorWindow.
+
+For example, if you set ColorWindow to 200 and ColorLevel to 100, then the range goes from 0 to 200 as you describe in your second paragraph. However, if you set the ColorLevel to 150, then the range goes from 50 to 250, and the outliers are mapped to 50 and 250, depending on whether they are above or below the range.
+
+This explains it well:
+http://www.vtk.org/pipermail/vtkusers/attachments/20040825/f3dbcc3d/attachment.jpg
+
+
+_________________ Unsorted notes
+
+SetInput is older than SetInputConnection  (same for output)
+
+Warping - bend geometry by value
+  vtkWarpScalar, vtkWarpVector
+
+vtkGL2PSExporter - to export pretty pdfs ready for papers
+

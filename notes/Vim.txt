@@ -1,0 +1,160 @@
+
+_______________________________________ basics
+
+" moving
+h, j, k, l  " left, down, up, right; remember can say number of times before
+%           " move to next grouping character
+0           " first character of the line
+^           " first non-blank character of the line
+$           " last character of the line
+g<j,k,0,^,$>  " make moving work with word wrap
+w             " jump to next start of word (punctuation considered words)
+W             " jump to next start of word (spaces separate words)
+e             " jump to next end of word (punctuation considered words)
+E             " jump to next end of word (spaces separate words)
+b             " jump to last start of word (punctuation considered words)
+B             " jump to last start of word (no punctuation)
+)             " sentences forward 
+(             " sentences backward 
+{  AND  }     " paragraphs (forward and backward) 
+%             " jump to opening/closing of braces, brackets, parentheses, etc.
+f[char]       " jump to next occurance of char
+;             " repeat last f movement
+
+" big moves
+G  AND  gg    " start of document and end of document
+H, L, AND M   " top of screen, bottom of screen, and middle
+:<number>  OR  <number>G  " goto line <number>
+
+_______________________________________ folding
+
+za " fold and unfold
+zR " undo folding everywhere
+zM " do folding everywhere
+
+_______________________________________ spell
+
+:set spell  " turn on
+[s and ]s   " move to next error
+z=          " correct error 
+
+_______________________________________ surround ()[]{}...
+
+(in Visual) S<surround_with>  " surround in visual
+cs<from><to>                  " change surroundings 
+
+_______________________________________ comments
+
+(in Visual) gc  " comments section
+(in Visual) gcu " uncomments section
+
+_______________________________________ tabs    :help tabe
+
+" default number of tabs is 10, can be changed in .vimrc with "set tabpagemax=<number>"
+:tabe[dit] <filename>   " open file in new tab
+:tabf[ind] <regex>      " seach for a file in path and open ex. :tabf *eadMe.txt
+:tabc[lose] <number>    " close tab, or close tab <number>
+gt  AND  gT             " moving to other tabs
+:tabm[ove] <+,-><number>  " move tab to the left or right by number
+:tabs                     " list all tabs
+
+_______________________________________ visual commands
+
+>     " shift right
+<     " shift left
+_______________________________________ windows
+
+:sp <filename>  AND  :vsp <filename>  " v is for vertical split
+:res <- OR +>[number]                 " resize current window's height
+:vertical res <- OR +>[number]        " resize current window's width 
+
+_______________________________________ remote
+
+Ctrl + L        " redraw screen
+vim scp://user@host//path/to/file/
+:Vexplore       " explore the directory of the current file in a new vertical window
+mf and me       " in explore mode, mark files (mf) and then edit (me)
+
+_______________________________________ misc
+
+Ctrl + n        " toggle NERDTree (custom)
+:set tw=<#>     " text width	
+:e              " reload
+"*              " register connected to system clipboard
+Ctrl + (j or k) " add line above or below (custom)
+Ctrl + b        " open list of buffers
+gq              " format selected text
+:!              " lets you run command on the command line
+
+_______________________________________ buffers
+
+<Leader>bc  OR  :Bc  " closes current buffer without closing window (custom)
+:ls            " list open buffers
+:sp [N]        " split window and edit buffer, if no buffer number given then edit current buffer in two windows
+:bn  AND  :bp  " go to previous or next buffer
+
+_______________________________________ mark
+
+m<a-z,A-Z>     " set a mark
+'<mark>        " go to line of mark
+`<mark>        " go to mark
+:marks         " list all current marks
+
+_______________________________________ searches
+
+%s/old/new/g   " replace all old with new throughout file
+%s/old/new/gc  " same but with confirmations
+%s/\=@a/new/gc " protip: search for contents of register a and replace 
+
+:h pattern  " excellent documentation on creating a search pattern
+
+" seach in multiple files
+" there are several ways that are probably faster (see ag in the plugins section), but this solution will always work
+:h vimgrep
+
+" search and replace in multiple files
+" uses an argument list.  :h arg 
+http://benmccormick.org/2014/08/04/learning-vim-in-2014-search/
+
+" use F3 to search for highlighted text or text under the cursor
+"   if under the cursor, the string is put in the z register
+
+" hit enter while in search mode to turn off highlighting (custom)
+
+_______________________________________ sessions
+
+:mksession <file_path>   " make a vim session
+vim -S <file_path>       " open a vim session
+
+_______________________________________ plugins
+
+Ag.vim - searching with Ag    :h Ag
+  :Ag [options] {pattern} [{directory}]
+
+CtrlP - opening files from current directory    :h ctrlp-commands ctrlp-extensions
+  Ctrl + P      " opens a window to start looking for files
+  ? + enter     " will remind you the mappings once in file find mode
+
+vim-bufferline - just shows you what buffers you have open
+  :b<number>    " switch to buffer <number>
+
+vim-easymotion - easier way to navigate      :h easymotion
+  <Leader><Leader>f[char]   " easy jumping to matching chars
+  <Leader><Leader>w         " easy jumping to next words
+  <Leader><Leader>j         " easy jumping to lines below
+
+snipmate - great way to add in boilerplate things  :h SnipMate
+  In insert mode type the trigger and hit tab.
+  <Tab>  " jump to next field
+  <S-Tab>  " jump to previous field
+
+  :set filetype?   " show the filetype for the current buffer
+
+  Based on filetype, so if I have a snippet for the right file type then
+  :Snip<Tab>      " show which files it's sourcing, because how my directory is set up this also shows the triggers
+
+  Notes on writing snippet files
+
+  Check out help for writing snippets files
+
+

@@ -1,0 +1,60 @@
+
+______________________________________________ Permissive free software licence
+
+From the family of permissive free software licenses that put minimal
+restriction on how the software can be redistributed. 
+
+_________________________________ BSD Licenses (permissive free)
+
+_________________________________ MIT Licenses (permissive free)
+
+
+______________________________________________ Copyleft licence
+
+Copyleft (a play on the word copyright) is the practice of using copyright law
+to offer the right to distribute copies and modified versions of a work and
+requiring that the same rights be preserved in modified versions of the work. In
+other words, copyleft is a general method for marking a creative work as freely
+available to be modified, and requiring all modified and extended versions of
+the creative work to be free as well.
+
+______________________________________________ Weak copyleft licence
+
+"Weak copyleft" licenses are generally used for the creation of software
+libraries, to allow other software to link to the library, and then be
+redistributed without the legal requirement for the work to be distributed under
+the library's copyleft license. Only changes to the weak-copylefted software
+itself become subject to the copyleft provisions of such a license, not changes
+to the software that links to it. This allows programs of any license to be
+compiled and linked against copylefted libraries such as glibc (the GNU
+project's implementation of the C standard library), and then redistributed
+without any re-licensing required.
+
+_________________________________ GNU General Public License GPL (weak copyleft)
+
+_________________________________ GNU Lesser General Public License LGPL (weak copyleft)
+
+The main difference between the GPL and the LGPL is that the latter allows the
+work to be linked with (in the case of a library, 'used by') a non-(L)GPLed
+program, regardless of whether it is free software or proprietary software.[1]
+The non-(L)GPLed program can then be distributed under any terms if it is not a
+derivative work. If it is a derivative work, then the program's terms must allow
+for "modification for the customer's own use and reverse engineering for
+debugging such modifications." Whether a work that uses an LGPL program is a
+derivative work or not is a legal issue. A standalone executable that
+dynamically links to a library, through a .so, .dll, or similar medium, is
+generally accepted as not being a derivative work (as defined by the LGPL). It
+would fall under the definition of a "work that uses the Library". The
+following is an excerpt of paragraph 5 of the LGPL version 2.1: 
+
+A program that contains no derivative of any portion of the Library, but is
+designed to work with the Library by being compiled or linked with it, is called
+a "work that uses the Library". Such a work, in isolation, is not a derivative
+work of the Library, and therefore falls outside the scope of this License.  
+
+Essentially, if it is a "work that uses the library", then it must be possible
+for the software to be linked with a newer version of the LGPL-covered program.
+The most commonly used method for doing so is to use "a suitable shared
+library mechanism for linking". Alternatively, a statically linked library is
+allowed if either source code or linkable object files are provided.[2]
+

@@ -1,0 +1,61 @@
+
+chmod <aogu +/- rwx>              # change permissions 
+  # u=user, g=group, o=other, a=all
+  # r=read, w=write, x=execute
+  # ex: chmod ug+wx   # give user and group write and execute permissions  
+
+which <command>                   # gives path where the command actually is
+
+ctr-R                             # search through command history
+
+find <directory> -name "<file regular expression (*.txt)>" -exec grep -Hi "<what>" {} \; > <output>.txt
+
+find <...> | xargs vim -p         # open the found files in a vim, -p opens files in different
+
+find . -type f -print0 | xargs -0 sed -i 's/old/new/g'  # recursive find and replace
+
+http://thesocietea.org/2014/09/power-tools-using-grep-xargs-and-sed/
+
+________________________ System info
+
+cat /proc/meminfo     " print RAM usage
+df -L                 " print hard drive usage
+
+________________________ Find
+
+For searching through files whose path or name contain a query term.
+
+$ find PATH_TO_SEARCH OPTIONS_TO_USE PATTERN_TO_SEARCH_FOR
+  
+    -name PATTERN : search for file names matching PATTERN
+    
+    -path PATTERN : any part of the path that matches PATTERN
+    
+    -type TYPE : Look on for files (f) or directories (d)
+  
+  Use -name and -path together and both have to be satisfied. (An AND search)
+    Use the -or flag to perform an OR search
+    Also has not logic with the -not flag
+  
+  Can sort by time or size with flags -mtime and -size
+
+_______________________ Ag - supposed to be a faster way to search in files
+
+ag example          " search for "example" recursively in current directory
+ag example <path>   " search in a particular path
+ag -Q example       " search for exact pattern
+ag example -l       " list file names only
+ag example -i       " case insensitive 
+-G <in>             " results must have "in" in name
+--ignore-dir <in>   " directories to ignore. ex. dir1/dir2/  OR  "*.rb"
+--skip-vcs-ignore   " allow things that are ignored in vcs flavor of choice config files
+
+______________________ sed - search and replace in a file from command line
+
+sed "s/<find>/<replace>/[g][i]" <file>
+" uses regular expressions for <find> and <replace>
+" need "g" or will only do the first occurance on the line
+" "i" will let it be case insensitive
+
+-i    " allow sed to actually edit the file, otherwise just shows on the command line
+

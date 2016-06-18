@@ -1,0 +1,6 @@
+
+Q_INIT_RESOURCE - is a platform-independent mechanism for embedding arbitrary binary data, including images and sounds, as part of an application executable. 
+https://qt-project.org/wiki/QtResources
+
+
+

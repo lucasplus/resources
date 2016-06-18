@@ -1,0 +1,68 @@
+
+The following characters need escaping in regular expressions by using \
+  $()*+.?[^|]
+
+.     matches any single character except the new line character 
+
+
+________________________________________________ quantifiers
+
+?  makes the previous token optional
+  /regexp?/  matches "regex" and "regexp"
+
++  one or more of the previous token
+  /princes+/  will match "princes" and "princessss" 
+
+*  zero or more of the previous token
+  /princes*/  would also match "prince"
+
+{min,max}  can specify range of allowable repetitions
+  {5,}  at least 5 repititions
+{exact}    exact number of repetitions
+
+________________________________________________ flags
+
+/your expression/[flags]
+  i - case insensitive
+  g - global flag, find all matches
+
+________________________________________________ character classes
+
+[]  specifies a range of characters to be matched
+  [aeiou]  matches any vowel
+  [a-zA-z\-]  all lower case, upper case, and hyphens. a hyphen has to be escaped
+  [^a-z]      negating, will match anything except lower case
+
+________________________________________________ character types
+
+\d  matches decimal degits
+\s  matches whitespace characters
+\w  matches word characters (letters, including international, numbers, and the underscore)
+\D \S \W  will not match the things above, meaning capitializing negates the effect
+
+________________________________________________ positions
+
+$  matches end of a string
+^  matches beginning 
+  /^cat$/  will match cat and nothing else, unlike /cat/
+
+________________________________________________ capturing groups
+
+() create groups which can group multiple tokens together or store a result for later reference
+
+________________________________________________ non-capturing groups
+
+for refering to a token in an expression, has syntax ?:
+  /^(?:ha){2,}$/  will match "haha", "hahaha" but not "hahhha" (we couldn't avoid this with character classes)
+
+________________________________________________ Or
+
+Specify or with (|)
+  /The (dog|cat) ate/  matches "The dog ate" and "The cat ate"
+
+________________________________________________ backreferences
+
+/the color (red|blue) is \1/  will match:
+  "the color red is red"
+  "the color blue is blue"
+    will not match "the color red is blue"

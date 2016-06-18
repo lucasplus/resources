@@ -1,0 +1,9 @@
+
+smart_pointer - Use when you need to be the owner or share ownership of an object
+
+weak_pointer - For when you don't want to own the object. This is different than a raw pointer because you can check to see if the referenced object was deleted. 
+
+A shared_ptr means shared ownership of the pointee object. The pointee object will remain in existence as long as at least one shared_ptr to that object exists, but as soon as the last shared_ptr to the object is destroyed, so will the pointee object.
+
+A weak_ptr means non-owning access to the pointee object. It allows access if the object exists. If the object has been destroyed, it tells you that the pointee object no longer exists rather than attempting to access the destroyed object.
+

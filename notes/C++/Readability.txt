@@ -1,0 +1,14 @@
+
+Trying to write some notes on the vague subject of how to improve code readability
+  - Want to the think about how writing things in a particular way gives ques
+
+// _________________________________ const 
+
+// for variables
+int *x = ...; // you can change the pointer and what it points to
+int *const x = ...; // you can change what it points to, but not where you're pointing
+const int *x = ...; // You can change what you're pointing to, but not the value of the pointer
+int const *x = ...; // (A synonym for the previous, now out of fashion)
+
+// for functions
+

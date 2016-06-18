@@ -1,0 +1,23 @@
+
+Notes on class inheritance within C++ 
+
+__________________________________ Public inheritance
+
+Public inheritance models an "is-a" relationship
+  - A derived class inherits data members and most methods.
+    - Does not inherit constructors, destructors, and assignment operators
+  - Can access public and protected 
+    - Can access private with public or protected methods
+  - When a derived-class object is created: first base-class constructor is called and then derived-class constructor
+    - When deleted: derived and then base.
+
+__________________________________ Private and Protected inheritance
+
+Private and Protected inheritance: models a "has-a" relationship
+  - public and protected of base-class become private of derived class with private inheritance
+  - public and protected of base-class become protected of derived class with protected inheritance
+
+__________________________________ Virtual inheritance
+
+Used to avoid diamond problem. Diamond problem occurs when a class subclasses two classes who both subclass the same class. 
+
